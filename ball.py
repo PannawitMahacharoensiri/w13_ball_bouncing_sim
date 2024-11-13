@@ -1,43 +1,35 @@
 import turtle
+import math
 
-class ball:
-
-    def __init__(self, color="", size=0, x=0, y=0, speed = (0,0)):
-        self.color = color
-        self.__size = size
+class Ball:
+    def __init__(self, size, x, y, vx, vy, color):
+        self.size = size
         self.x = x
         self.y = y
-        self.__speed = speed
+        self.vx = vx
+        self.vy = vy
+        self.color = color
+        self.canvas_width = turtle.screensize()[0]
+        self.canvas_height = turtle.screensize()[1]
 
-    def draw_ball(self):
+    def draw(self):
+        # draw a circle of radius equals to size at x, y coordinates and paint it with color
         turtle.penup()
         turtle.color(self.color)
         turtle.fillcolor(self.color)
-        turtle.goto(self.x, self.y - self.size)
+        turtle.goto(self.x,self.y-self.size)
         turtle.pendown()
         turtle.begin_fill()
         turtle.circle(self.size)
         turtle.end_fill()
 
-    def move_ball(self, dt):
-        self.x += self.speed[0] * dt
-        self.y += self.speed[1] * dt
+    def move(self, dt):
+        self.x += self.vx*dt
+        self.y += self.vy*dt
 
-    @property
-    def size(self):
-        return self.__size
-    @size.setter
-    def size(self, value):
-        self.__size = value
+    def update_velocity(self):
+        if abs(self.x) > (self.canvas_width - self.size):
+            self.vx = -self.vx
 
-    @property
-    def speed(self):
-        return self.__speed
-    @speed.setter
-    def speed(self, value):
-        self.__speed = value
-
-
-
-
-
+        if abs(self.y) > (self.canvas_height - self.size):
+            self.vy = -self.vy
